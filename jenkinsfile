@@ -1,0 +1,7 @@
+@Library('ci-shared-libs-dev@main') _
+
+ standardPipeline(
+     serviceName: 'google-ads-mcp',
+     namespace: 'backend',
+     environment: 'dev'
+ )
