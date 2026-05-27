@@ -21,4 +21,4 @@ EXPOSE 8080
 
 # Define the command to run the server
 # This uses the entry point defined in pyproject.toml
-CMD ["google-ads-mcp", "--transport", "sse", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["google-ads-mcp"]
