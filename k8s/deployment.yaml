@@ -1,40 +1,44 @@
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   namespace: backend
   name: google-ads-mcp
-  labels:
-    app: google-ads-mcp
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: google-ads-mcp
-  minReadySeconds: 5
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0    
+
   template:
     metadata:
       labels:
         app: google-ads-mcp
+
     spec:
       containers:
         - name: google-ads-mcp
           image: 494899930155.dkr.ecr.ap-south-1.amazonaws.com/google-ads-mcp-dev:latest
-          envFrom:
-            - configMapRef:
-                name: google-ads-mcp-configmap
+
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /secrets/adc.json
+
+          volumeMounts:
+            - name: gcp-creds
+              mountPath: /secrets
+              readOnly: true
+
           ports:
             - containerPort: 8080
+
           resources:
             requests:
               cpu: "1"
-              memory: "1Gi" 
+              memory: "1Gi"
             limits:
               memory: "3Gi"
-      
-    
-     
+
+      volumes:
+        - name: gcp-creds
+          secret:
+            secretName: google-ads-mcp-secret
