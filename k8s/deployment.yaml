@@ -19,6 +19,9 @@ spec:
         - name: google-ads-mcp
           image: 494899930155.dkr.ecr.ap-south-1.amazonaws.com/google-ads-mcp-dev:latest
 
+          envFrom:
+            - secretRef:
+                name: google-ads-env
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/adc.json
@@ -41,4 +44,4 @@ spec:
       volumes:
         - name: gcp-creds
           secret:
-            secretName: google-ads-mcp-secret
+            secretName: google-ads-adc
